@@ -11,27 +11,30 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
-public class StudentCount {
+public class StudentPass {
 
     public static class TokenizerMapper
-       extends Mapper<Object, Text, Text, IntWritable>{
+       extends Mapper<Object, Text, Text, IntWritable> {
 
+    // input will be as:
+    // <STUDENT_ID> <COURSE_ID> <GRADE>
     private final static IntWritable one = new IntWritable(1);
-    private Text word = new Text();
+    private Text studentId = new Text();
+    private Text courseId = new Text();
+    private Text grade = new Text();
 
     public void map(Object key, Text value, Context context
                     ) throws IOException, InterruptedException {
       StringTokenizer itr = new StringTokenizer(value.toString());
       
-      int index = 0;
-
       while (itr.hasMoreTokens()) {
-        word.set(itr.nextToken());
+        studentId.set(itr.nextToken());
+        courseId.set(itr.nextToken());
+        grade.set(itr.nextToken());
 
-        if (index%3 == 1) {
-          context.write(word, one);
+        if (Integer.parseInt(grade.toString()) >= 60) {
+          context.write(studentId, one);
         }
-        index++;
       }
     }
   }

@@ -30,6 +30,14 @@ public class Hw3 {
             job.setOutputValueClass(IntWritable.class);            
         }
 
+        else if (args[0].equals("pass")) {
+            job.setMapperClass(StudentPass.TokenizerMapper.class);
+            job.setCombinerClass(StudentPass.IntSumReducer.class);
+            job.setReducerClass(StudentPass.IntSumReducer.class);
+            job.setOutputKeyClass(Text.class);
+            job.setOutputValueClass(IntWritable.class); 
+        }
+
         // output jar file will be tested as: hadoop jar Hw3.jar Hw3 cap input output_c
         FileInputFormat.addInputPath(job, new Path(args[1]));
         FileOutputFormat.setOutputPath(job, new Path(args[2]));
