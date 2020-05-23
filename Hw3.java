@@ -38,6 +38,14 @@ public class Hw3 {
             job.setOutputValueClass(IntWritable.class); 
         }
 
+        else if (args[0].equals("avg")) {
+            job.setMapperClass(StudentAverage.TokenizerMapper.class);
+            //job.setCombinerClass(StudentAverage.IntSumReducer.class);
+            job.setReducerClass(StudentAverage.IntSumReducer.class);
+            job.setOutputKeyClass(Text.class);
+            job.setOutputValueClass(IntWritable.class); 
+        }
+
         // output jar file will be tested as: hadoop jar Hw3.jar Hw3 cap input output_c
         FileInputFormat.addInputPath(job, new Path(args[1]));
         FileOutputFormat.setOutputPath(job, new Path(args[2]));
