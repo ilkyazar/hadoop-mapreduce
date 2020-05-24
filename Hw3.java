@@ -10,6 +10,8 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
 public class Hw3 {
 
@@ -44,6 +46,15 @@ public class Hw3 {
             job.setReducerClass(StudentAverage.IntSumReducer.class);
             job.setOutputKeyClass(Text.class);
             job.setOutputValueClass(IntWritable.class); 
+        }
+
+        else if (args[0].equals("twolist")) {
+            job.setNumReduceTasks(2);
+            job.setMapperClass(CourseTwolist.TokenizerMapper.class);
+            job.setPartitionerClass(CourseTwolist.AvgPartitioner.class);
+            job.setReducerClass(CourseTwolist.IntSumReducer.class);
+            job.setOutputKeyClass(Text.class);
+            job.setOutputValueClass(IntWritable.class);
         }
 
         // output jar file will be tested as: hadoop jar Hw3.jar Hw3 cap input output_c
